@@ -1,6 +1,6 @@
 'use client'
 import { useRef, useState, useEffect } from 'react';
-import Lottie from 'lottie-react';
+import Lottie, { LottieRefCurrentProps } from 'lottie-react';
 import doctorAnimation from '../../public/Comp.json';
 import dnaAnimation from '../../public/DNA.json';
 
@@ -10,7 +10,7 @@ const ZOOM_DURATION       = 1200;
 const SCALE_BACK_DURATION = 450;
 const CONTENT_REVEAL      = 3 * ZOOM_DURATION;
 const BEZEL_HIDE_TIME     = 0.85 * ZOOM_DURATION;
-const ZOOM_FACTOR         = 9;
+// const ZOOM_FACTOR         = 9;
 const slowEase = 'cubic-bezier(0.85,0,0.2,1)';
 const fastEase = 'cubic-bezier(0.7,0,0.3,1)';
 
@@ -20,13 +20,12 @@ const SCRUB_EASING            = 5;
 /* ───────────────────────────────────────────────────────── */
 
 export default function Home() {
-  const lottieRef        = useRef<any>(null);
+  const lottieRef        = useRef<LottieRefCurrentProps>(null);
   const totalFramesRef   = useRef(0);           // total frames of the Lottie
-  const rafIdRef         = useRef<number>();    // rAF throttling
+  const rafIdRef         = useRef<number | undefined>(undefined);
   const containerRef     = useRef<HTMLDivElement>(null);
   const phoneScreenRef   = useRef<HTMLDivElement>(null);
 
-  const [ready, setReady]             = useState(false);
   const [isZoomed, setIsZoomed]       = useState(false);
   const [cameraTf, setCameraTf]       = useState('');
   const [hideBezel, setHideBezel]     = useState(false);
@@ -82,11 +81,11 @@ export default function Home() {
     /* 2.  base scale that fills the smaller viewport dimension */
     const base = Math.max(vw / rect.width, vh / rect.height);  // ★ note max()
   
-    /* 3.  overshoot so glass > viewport (1.75‑2 feels “infinite”) */
+    /* 3.  overshoot so glass > viewport (1.75‑2 feels "infinite") */
     const OVERSHOOT = 1;          // tweak to taste
     const scale     = base * OVERSHOOT;
   
-    /* 4.  translate so the DNA’s centre stays centred while we scale */
+    /* 4.  translate so the DNA's centre stays centred while we scale */
     const tx = vw / 2 - (rect.left + rect.width  / 2);
     const ty = vh / 2 - (rect.top  + rect.height / 2);
   
@@ -128,9 +127,9 @@ export default function Home() {
             </p>
             <div className="flex gap-4">
               <button className="bg-[#183153] text-white text-lg font-semibold rounded-md px-8 py-4 shadow-lg hover:bg-[#274472] transition mb-4"
-                onClick={handleClick} disabled={isZoomed}>Get Started</button>
+                onClick={handleClick} disabled={isZoomed}>Get Started</button>
               <button className="bg-white/20 text-white text-lg font-semibold rounded-md px-8 py-4 shadow-lg hover:bg-[#274472]/80 transition mb-4 border border-white/30"
-                onClick={handleClick} disabled={isZoomed}>Learn More</button>
+                onClick={handleClick} disabled={isZoomed}>Learn More</button>
             </div>
             </div>
           </div>
@@ -183,7 +182,7 @@ export default function Home() {
       {/* FULL‑SCREEN CONTENT – slides up */}
       {zoomDone && (
         <div className="fixed inset-0 bg-white z-50 overflow-auto p-8 animate-slide-up">
-          <h2 className="text-3xl font-bold text-[#183153] mb-4">You're in the full‑page view!</h2>
+          <h2 className="text-3xl font-bold text-[#183153] mb-4">You&apos;re in the full‑page view!</h2>
           {/* ...rest unchanged... */}
         </div>
       )}
@@ -198,7 +197,6 @@ export default function Home() {
             autoplay={false}
             onDOMLoaded={()=>{
               totalFramesRef.current = lottieRef.current?.getDuration(true) || 0;
-              setReady(true);
             }}
             style={{ transform:'scale(4.5)', transformOrigin:'bottom center' }}
           />
