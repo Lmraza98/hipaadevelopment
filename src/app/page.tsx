@@ -1,6 +1,11 @@
 'use client'
 import { useRef, useState, useEffect } from 'react';
-import Lottie, { LottieRefCurrentProps } from 'lottie-react';
+import dynamic from 'next/dynamic';
+import type { LottieRefCurrentProps } from 'lottie-react';
+const Lottie = dynamic(
+   () => import('lottie-react').then((m) => m.default),
+   { ssr: false }
+);
 import doctorAnimation from '../../public/Comp.json';
 import dnaAnimation from '../../public/DNA.json';
 
