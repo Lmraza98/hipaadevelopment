@@ -1,5 +1,5 @@
 'use client'
-import { useRef, useState, useEffect, Suspense } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Lottie, { LottieRefCurrentProps } from 'lottie-react';
 import doctorAnimation from '../../public/Comp.json';
 import dnaAnimation from '../../public/DNA.json';
@@ -99,9 +99,6 @@ export default function Home() {
   
 
   return (
-    <Suspense>
-
-    
     <div
       ref={containerRef}
       className={`h-screen w-screen overflow-hidden ${
@@ -189,6 +186,7 @@ export default function Home() {
           <p className="text-lg text-gray-600 mb-8 max-w-sm leading-loose">
             We are currently working on this page. Please check back soon.
           </p>
+          {/* ...rest unchanged... */}
         </div>
       )}
 
@@ -214,6 +212,5 @@ export default function Home() {
         @keyframes slideUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
       `}</style>
     </div>
-    </Suspense>
   );
 }
