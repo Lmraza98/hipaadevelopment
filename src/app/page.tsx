@@ -181,9 +181,11 @@ export default function Home() {
 
       {/* FULL‑SCREEN CONTENT – slides up */}
       {zoomDone && (
-        <div className="fixed inset-0 bg-white z-50 overflow-auto p-8 animate-slide-up">
-          <h2 className="text-3xl font-bold text-[#183153] mb-4">You&apos;re in the full‑page view!</h2>
-          {/* ...rest unchanged... */}
+        <div className="fixed inset-0 bg-white z-50 overflow-auto p-8 animate-slide-up flex flex-col items-center justify-center">
+          <h2 className="text-3xl font-bold text-[#183153] mb-4">Coming Soon</h2>
+          <p className="text-lg text-gray-600 mb-8 max-w-sm leading-loose">
+            We are currently working on this page. Please check back soon.
+          </p>
         </div>
       )}
 
